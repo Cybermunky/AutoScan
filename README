@@ -1,0 +1,8 @@
+*** Must Run As SUDO ***
+
+-AutoScan.sh-
+sudo ./AutoScan.sh 10.10.10.10
+
+-Description-
+Really basic BASH script that will run 3 different NMAP Scans that I commonly use for CTF-based Engagements & OSCP Prep. This will also detect if Port 80 is available
+and will then run a basic DIRB Scan. I plan on adding more functionality over time. - CyberMunky
