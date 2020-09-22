@@ -11,7 +11,8 @@ NMAP_Smb () {
   SMB=$(cat AllPorts | grep 445/tcp | awk '/tcp/ {print $1}' | sed 's/tcp/ /' | sed 's/^\///;s/\// /g' | sed -e 's/\s\+//g')
   SMB1=$(cat AllPorts | grep 139/tcp | awk '/tcp/ {print $1}' | sed 's/tcp/ /' | sed 's/^\///;s/\// /g' | sed -e 's/\s\+//g')
   if [[ ${SMB} -eq 145 && ${SMB1} -eq 135 ]]; then
-    echo "nmap --script=smb-vuln* -p139,445 -oN NMAP-SMB-VulnCheck"
+    echo "nmap --script=smb-vuln* -p139,445 -oN NMAP-SMB-VulnCheck ${HOST}"
+    echo "nmap --script=smb-enum-shares -p139,445 -oN SMB-Enum-Shares ${HOST}"
   elif [[ ${SMB} -eq 145 ]]; then
     echo -e "${RED}[-] Could not identify Port: 445${END}"
     echo -e "${YELLOW}[?] Would you like to force NMAP SMB Vulnerability Scan?${END}"
@@ -20,13 +21,14 @@ NMAP_Smb () {
     echo -e "${YELLOW}[?] Would you like to force NMAP SMB Vulnerability Scan?${END}"
   else
     echo -e "${RED}[-] No SMB availability${END}"
+    echo -e "${GREEN}All scans complete!${END}"
   fi
   }
 
 GOBUSTER_Default () {
     RPORT80=$(cat AllPorts | grep 80/tcp | awk '/tcp/ {print $1}' | sed 's/tcp/ /' | sed 's/^\///;s/\// /g' | sed -e 's/\s\+//g')
     if [[ ${RPORT80} -eq 80 ]]; then
-      gobuster dir -u http://${HOST}:${RPORT80}/ -w WORDLIST >> GoBuster-Default
+      gobuster dir -u http://${HOST}:${RPORT80}/ -w Medium-Directory-Wordlists >> GoBuster-Default
     else
       echo -e "${RED}[-] Could not identify Port: 80!${END}"
       echo -e "${YELLOW}[?] Would you like to force GoBuster Scan on Port 80?${END}"

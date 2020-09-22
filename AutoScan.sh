@@ -8,6 +8,8 @@ END='\e[0m'
 Initialize () {
   if [[ -n "$host" ]]; then
     echo -e "\n[!] Initializing Scans\n"
+    sleep 5
+    clear
     NMAP_Scans
   else
     echo "[!] Please include a host [ex: sudo $0 10.10.10.10]"
